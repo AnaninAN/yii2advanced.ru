@@ -24,6 +24,6 @@ class UserController extends ActiveController
     }
 
     public function actionMe() {
-        Yii::$app->user->identity;
+        return Yii::$app->user->identity;
     }
 }

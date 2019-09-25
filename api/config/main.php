@@ -7,13 +7,12 @@ $params = array_merge(
     require __DIR__ . '/params-local.php'
 );
 
-$config = [
+return [
     'id' => 'app-api',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'modules' => [
         'v1' => [
-            'basePath' => '@app/modules/v1',
             'class' => \api\modules\v1\Module::class,
         ],
     ],
@@ -34,7 +33,7 @@ $config = [
             ],
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => \api\modules\v1\models\User::class,
             'enableAutoLogin' => false,
             'enableSession' => false,
         ],
@@ -53,7 +52,7 @@ $config = [
             'showScriptName' => false,
             'rules' => [
                 [
-                    'class' => 'yii\rest\UrlRule',
+                    'class' => \yii\rest\UrlRule::class,
                     'controller' => 'v1/user',
                     'pluralize' => true,
                     'extraPatterns' => [
@@ -61,7 +60,7 @@ $config = [
                     ],
                 ],
                 [
-                    'class' => 'yii\rest\UrlRule',
+                    'class' => \yii\rest\UrlRule::class,
                     'controller' => 'v1/task',
                     'pluralize' => true,
                     'extraPatterns' => [
@@ -73,22 +72,3 @@ $config = [
     ],
     'params' => $params,
 ];
-
-if (YII_ENV_DEV) {
-    // configuration adjustments for 'dev' environment
-    $config['bootstrap'][] = 'debug';
-    $config['modules']['debug'] = [
-        'class' => 'yii\debug\Module',
-        // uncomment the following to add your IP if you are not connecting from localhost.
-        'allowedIPs' => ['*'],
-    ];
-
-    $config['bootstrap'][] = 'gii';
-    $config['modules']['gii'] = [
-        'class' => 'yii\gii\Module',
-        // uncomment the following to add your IP if you are not connecting from localhost.
-        'allowedIPs' => ['*'],
-    ];
-}
-
-return $config;
